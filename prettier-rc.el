@@ -46,6 +46,8 @@
 
 ;;; Code:
 
+(require 'prettier-js)
+
 (defgroup prettier-rc nil
   "Minor mode to format JS code on file save using local rc rules"
   :group 'languages
@@ -141,7 +143,10 @@
       (progn
         ;; cleanup args
         (setq prettier-js-args '())
-        (make-variable-buffer-local 'prettier-js-args)))))
+        (make-variable-buffer-local 'prettier-js-args))))
+
+  ;; finally call prettier-js
+  (prettier-js))
 
 ;;;###autoload
 (define-minor-mode prettier-rc-mode
@@ -150,18 +155,8 @@
   :global nil
   ;; Toggle prettier-rc-mode
   (if prettier-rc-mode
-      (progn
-        ;; require prettier-js
-        (require 'prettier-js)
-
-        ;; enable prettier-js-mode
-        (prettier-js-mode +1)
-
-        ;; add before-save hook
-        (add-hook 'before-save-hook 'prettier-rc nil 'local))
-    (progn
-      (remove-hook 'before-save-hook 'prettier-rc 'local)
-      (prettier-js-mode -1))))
+      (add-hook 'before-save-hook 'prettier-rc nil 'local)
+    (remove-hook 'before-save-hook 'prettier-rc 'local)))
 
 (provide 'prettier-rc)
 ;;; prettier-rc.el ends here
