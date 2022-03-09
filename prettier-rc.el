@@ -56,21 +56,21 @@
                    "https://github.com/jjuliano/prettier-rc-emacs"))
 
 (defcustom prettier-rc-skip-package-json nil
-  "Do not use the package.json configuration file."
+  "Do not use the `package.json' configuration file."
   :type '(choice
           (const :tag "Yes" t)
           (const :tag "No" nil))
   :group 'prettier-rc)
 
 (defcustom prettier-rc-skip-editorconfig nil
-  "Do not use the .editorconfig configuration file."
+  "Do not use the `.editorconfig' configuration file."
   :type '(choice
           (const :tag "Yes" t)
           (const :tag "No" nil))
   :group 'prettier-rc)
 
 (defcustom prettier-rc-use-local-prettier t
-  "Use the node_modules prettier, fallback to PATH if not found."
+  "Use the `node_modules' prettier, fallback to 'PATH' if not found."
   :type '(choice
           (const :tag "Yes" t)
           (const :tag "No" nil))
@@ -87,7 +87,7 @@
       (append (prettier-rc--add-file file))))
 
 (defun prettier-rc ()
-  "Format the current buffer using prettier-rc using the defined rc rules."
+  "Format the current buffer using `prettier-rc' using the defined rc rules."
   (interactive)
 
   (setq prettier-rc--config-files '(
