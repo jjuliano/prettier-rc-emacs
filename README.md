@@ -42,7 +42,7 @@ Then you can hook to your favorite javascript/typescript mode:
 This package is customizable via custom.el:
 
 ```
-M-x customize-group prettier-js
+M-x customize-group prettier-rc
 ```
 
 - `prettier-rc-skip-package-json` Do not use the package.json configuration file (t or nil)
