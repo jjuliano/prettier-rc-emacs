@@ -48,6 +48,13 @@
 
 (require 'prettier-js)
 
+;; make free variable as buffer local
+(make-variable-buffer-local 'prettier-js-args)
+(make-variable-buffer-local 'prettier-js-command)
+(make-variable-buffer-local 'prettier-rc-skip-editorconfig)
+(make-variable-buffer-local 'prettier-rc-use-local-prettier)
+(make-variable-buffer-local 'prettier-rc-skip-package-json)
+
 (defgroup prettier-rc nil
   "Minor mode to format JS code on file save using local rc rules"
   :group 'languages
@@ -89,13 +96,6 @@
 (defun prettier-rc ()
   "Format the current buffer using `prettier-rc' using the defined rc rules."
   (interactive)
-
-  ;; make free variable as buffer local
-  (make-variable-buffer-local 'prettier-js-args)
-  (make-variable-buffer-local 'prettier-js-command)
-  (make-variable-buffer-local 'prettier-rc-skip-editorconfig)
-  (make-variable-buffer-local 'prettier-rc-use-local-prettier)
-  (make-variable-buffer-local 'prettier-rc-skip-package-json)
 
   (let ((prettier-rc--config-files '("package.json"
                                      ".prettierrc"
