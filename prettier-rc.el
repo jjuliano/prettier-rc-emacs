@@ -136,7 +136,7 @@
           (setq prettier-js-args (remove nil
                                          `(,(if (bound-and-true-p prettier-rc-skip-editorconfig)
                                                 "--no-editorconfig")
-                                           ,(mapconcat 'identity args " ")
+                                           ,(mapconcat #'identity args " ")
                                            "--write"))))
       (progn
         ;; cleanup args
@@ -153,8 +153,8 @@
   :global nil
   ;; Toggle prettier-rc-mode
   (if prettier-rc-mode
-      (add-hook 'before-save-hook 'prettier-rc nil 'local)
-    (remove-hook 'before-save-hook 'prettier-rc 'local)))
+      (add-hook 'before-save-hook #'prettier-rc nil 'local)
+    (remove-hook 'before-save-hook #'prettier-rc 'local)))
 
 (provide 'prettier-rc)
 ;;; prettier-rc.el ends here
