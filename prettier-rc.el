@@ -90,8 +90,7 @@
   "Format the current buffer using `prettier-rc' using the defined rc rules."
   (interactive)
 
-  (setq prettier-rc--config-files '(
-                                    "package.json"
+  (setq prettier-rc--config-files '("package.json"
                                     ".prettierrc"
                                     ".prettierrc.json"
                                     ".prettierrc.yaml"
@@ -102,8 +101,7 @@
                                     "prettier.config.js"
                                     "prettier.config.cjs"
                                     ".prettierrc.toml"
-                                    ".editorconfig"
-                                    ))
+                                    ".editorconfig"))
 
   (if (bound-and-true-p prettier-rc-skip-package-json)
       (delete "package.json" prettier-rc--config-files))
