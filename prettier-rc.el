@@ -83,78 +83,76 @@
           (const :tag "No" nil))
   :group 'prettier-rc)
 
-(defun prettier-rc--add-file (file)
-  "Builds and store the local rc FILE list if found."
-  (list :file (concat (locate-dominating-file default-directory file)
-                      file)))
-
-(defun prettier-rc--find-file (file)
-  "Search the local base directory for local FILE and store to list."
-  (if (locate-dominating-file default-directory file)
-      (append (prettier-rc--add-file file))))
-
 (defun prettier-rc ()
   "Format the current buffer using `prettier-rc' using the defined rc rules."
   (interactive)
 
-  (let ((prettier-rc--config-files '("package.json"
-                                     ".prettierrc"
-                                     ".prettierrc.json"
-                                     ".prettierrc.yaml"
-                                     ".prettierrc.yml"
-                                     ".prettierrc.json5"
-                                     ".prettierrc.js"
-                                     ".prettierrc.cjs"
-                                     "prettier.config.js"
-                                     "prettier.config.cjs"
-                                     ".prettierrc.toml"
-                                     ".editorconfig")))
+  (defun prettier-rc--add-file (file)
+    "Builds and store the local rc FILE list if found."
+    (list :file (concat (locate-dominating-file default-directory file)
+                        file)))
 
-    ;; check if `package.json' will be skipped
-    (if (bound-and-true-p prettier-rc-skip-package-json)
-        (delete "package.json" prettier-rc--config-files))
+  (defun prettier-rc--find-file (file)
+    "Search the local base directory for local FILE and store to list."
+    (if (locate-dominating-file default-directory file)
+        (append (prettier-rc--add-file file))))
 
-    ;; check if `.editorconfig' will be skipped
-    (if (bound-and-true-p prettier-rc-skip-editorconfig)
-        (delete ".editorconfig" prettier-rc--config-files))
+  (setq prettier-rc--config-files '(".prettierrc"
+                                    ".prettierrc.json"
+                                    ".prettierrc.yaml"
+                                    ".prettierrc.yml"
+                                    ".prettierrc.json5"
+                                    ".prettierrc.js"
+                                    ".prettierrc.cjs"
+                                    "prettier.config.js"
+                                    "prettier.config.cjs"
+                                    ".prettierrc.toml"))
 
-    ;; check if prefer to use local prettier via `npm'
-    (if (bound-and-true-p prettier-rc-use-local-prettier)
-        (progn
-          (let* ((file-name (or (buffer-file-name) default-directory))
-                 (root (locate-dominating-file file-name "node_modules"))
-                 (prettier (and root
-                                (expand-file-name "node_modules/.bin/prettier" root))))
+  ;; check if `package.json' will be skipped
+  (unless (bound-and-true-p prettier-rc-skip-package-json)
+    (add-to-list 'prettier-rc--config-files "package.json"))
 
-            (if (and prettier (file-executable-p prettier))
-                (progn
-                  (setq prettier-js-command prettier))
+  ;; check if `.editorconfig' will be skipped
+  (unless (bound-and-true-p prettier-rc-skip-editorconfig)
+    (add-to-list 'prettier-rc--config-files ".editorconfig"))
+
+  ;; check if prefer to use local prettier via `npm'
+  (if (bound-and-true-p prettier-rc-use-local-prettier)
+      (progn
+        (let* ((file-name (or (buffer-file-name) default-directory))
+               (root (locate-dominating-file file-name "node_modules"))
+               (prettier (and root
+                              (expand-file-name "node_modules/.bin/prettier" root))))
+
+          (if (and prettier (file-executable-p prettier))
               (progn
-                (setq prettier-js-command "prettier"))))))
+                (setq prettier-js-command prettier))
+            (progn
+              (setq prettier-js-command "prettier"))))))
 
-    (let (args)
-      ;; iterate over the local rc files
-      (dolist (rc prettier-rc--config-files)
-        (if (prettier-rc--find-file rc)
-            ;; append the rc file to the list when found
-            (push (concat "--config " (concat (locate-dominating-file
-                                               default-directory rc) rc))
-                  args)))
+  (let (args)
+    ;; iterate over the local rc files
+    (dolist (rc prettier-rc--config-files)
+      (if (prettier-rc--find-file rc)
+          ;; append the rc file to the list when found
+          (push (concat "--config " (concat (locate-dominating-file
+                                             default-directory rc) rc))
+                args)))
 
-      ;; only specify prettier-js-args if files are found
-      (if (bound-and-true-p args)
-          (progn
-            (setq prettier-js-args (remove nil
-                                           `(,(if (bound-and-true-p prettier-rc-skip-editorconfig)
-                                                  "--no-editorconfig")
-                                             ,(mapconcat #'identity args " ")
-                                             "--write"))))
+    ;; only specify prettier-js-args if files are found
+    (if (bound-and-true-p args)
         (progn
-          ;; cleanup args
-          (setq prettier-js-args '()))))
+          (setq prettier-js-args (remove nil
+                                         `(,(if (bound-and-true-p prettier-rc-skip-editorconfig)
+                                                "--no-editorconfig")
+                                           ,(mapconcat #'identity args " ")
+                                           "--write"))))
+      (progn
+        ;; cleanup args
+        (setq prettier-js-args '()))))
 
-    ;; finally call prettier-js
-    (prettier-js)))
+  ;; finally call prettier-js
+  (prettier-js))
 
 ;;;###autoload
 (define-minor-mode prettier-rc-mode
