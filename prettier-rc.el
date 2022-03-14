@@ -40,7 +40,7 @@
 (make-variable-buffer-local 'prettier-js-args)
 (make-variable-buffer-local 'prettier-js-command)
 (make-variable-buffer-local 'prettier-rc-skip-editorconfig)
-(make-variable-buffer-local 'prettier-rc-use-local-prettier)
+(make-variable-buffer-local 'prettier-rc-use-node-modules-bin)
 (make-variable-buffer-local 'prettier-rc-skip-package-json)
 
 (defgroup prettier-rc nil
@@ -64,7 +64,7 @@
           (const :tag "No" nil))
   :group 'prettier-rc)
 
-(defcustom prettier-rc-use-local-prettier t
+(defcustom prettier-rc-use-node-modules-bin t
   "Use the `node_modules' prettier, fallback to 'PATH' if not found."
   :type '(choice
           (const :tag "Yes" t)
@@ -105,7 +105,7 @@
     (add-to-list 'prettier-rc--config-files ".editorconfig"))
 
   ;; check if prefer to use local prettier via `npm'
-  (if (bound-and-true-p prettier-rc-use-local-prettier)
+  (if (bound-and-true-p prettier-rc-use-node-modules-bin)
       (progn
         (let* ((file-name (or (buffer-file-name) default-directory))
                (root (locate-dominating-file file-name "node_modules"))

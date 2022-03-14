@@ -63,4 +63,4 @@ M-x customize-group prettier-rc
 
 - `prettier-rc-skip-package-json` Do not use the package.json configuration file (t or nil)
 - `prettier-rc-skip-editorconfig` Do not use the .editorconfig configuration file (t or nil)
-- `prettier-rc-use-local-prettier` Use the node_modules prettier, fallback to PATH if not found (t or nil)
+- `prettier-rc-use-node-modules-bin` Use the node_modules prettier, fallback to PATH if not found (t or nil)
