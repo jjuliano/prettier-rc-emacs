@@ -1,48 +1,36 @@
-;;; prettier-rc.el --- Minor mode for prettier-js to use local rc rules
-
-;; Version: 0.1.0
+;;; prettier-rc.el --- Minor mode for prettier to use local rc rules
 
 ;; Copyright (C) 2022-2023  Joel Bryan Juliano
 
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
 ;; This file is not part of GNU Emacs.
-
-;; Redistribution and use in source and binary forms, with or without
-;; modification, are permitted provided that the following conditions are
-;; met:
-
-;; * Redistributions of source code must retain the above copyright
-;; notice, this list of conditions and the following disclaimer.
-;; * Redistributions in binary form must reproduce the above
-;; copyright notice, this list of conditions and the following disclaimer
-;; in the documentation and/or other materials provided with the
-;; distribution.
-;; * Neither the name of the copyright holder nor the names of its
-;; contributors may be used to endorse or promote products derived from
-;; this software without specific prior written permission.
-
-;; THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-;; "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-;; LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-;; A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-;; OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-;; SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-;; LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-;; DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-;; THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-;; (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-;; OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.)
 
 ;; Author: Joel Bryan Juliano <joelbryan dot juliano at gmail dot com>
 ;; Created: 08 March 2022
 ;; URL: https://github.com/jjuliano/prettier-rc-emacs
-;; Package-Requires: ((emacs "26") (prettier-js "0.1.0"))
-;; Version: 1.0.0
-;; Keywords: convenience edit js rc prettierrc prettier-rc prettier prettier-js
+;; Package-Requires: ((emacs "24") (prettier-js "0.1.0"))
+;; Version: 0.1.0
+;; Keywords: convenience edit js ts rc prettierrc prettier-rc prettier prettier-js
 
 ;;; Commentary:
 
-;; Formats your JavaScript code using 'prettier' on file save using local rc
-;; rules.
+;; Formats your JavaScript & Typescript code using Prettier and defined rc rules.
+
+;; Usage
+;; -----
+;;
+;;     Running `prettier-rc` will look on the current project's folder for any
+;;     defined `.prettierrc.*`, `prettier.config.*` and `.editorconfig` rules
+;;     and automatically pass them to Prettier on the current buffer.
+;;
+;;       M-x prettier-rc
+;;
+;;     To automatically format after saving:
+;;
+;;       (add-hook 'typescript-mode-hook 'prettier-rc-mode)
+;;       (add-hook 'js2-mode-hook 'prettier-rc-mode)
+;;       (add-hook 'web-mode-hook 'prettier-rc-mode)
 
 ;;; Code:
 
