@@ -104,7 +104,7 @@
                                                                  default-directory file) file))
                                     args)))))))
 
-      (mapcar (lambda (rc)
+      (mapc (lambda (rc)
                 (prettier-rc--build-config rc))
               (list ".prettierrc"
                     ".prettierrc.json"
