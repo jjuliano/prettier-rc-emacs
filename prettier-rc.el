@@ -36,7 +36,7 @@
 ;;; Code:
 
 (require 'prettier-js)
-(require 'cl)
+(require 'cl-lib)
 
 (defgroup prettier-rc nil
   "Minor mode to format JS code on file save using local rc rules"
