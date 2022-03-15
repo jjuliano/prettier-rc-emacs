@@ -36,6 +36,7 @@
 ;;; Code:
 
 (require 'prettier-js)
+(require 'cl)
 
 (defgroup prettier-rc nil
   "Minor mode to format JS code on file save using local rc rules"
@@ -93,15 +94,15 @@
                                                 ((string= file ".prettierignore")
                                                  (if (bound-and-true-p prettier-rc-use-prettierignore)
                                                      (push (concat "--ignore-path " (concat (locate-dominating-file
-                                                                                        default-directory file) file))
+                                                                                             default-directory file) file))
                                                            args)))
                                                 ;; append the rc file to the list when found
                                                 (t (push (concat "--config " (concat (locate-dominating-file
                                                                                       default-directory file) file))
                                                          args))))))
 
-      (mapcar #'(lambda (rc)
-                  (prettier-rc--build-config rc))
+      (mapcar (lambda (rc)
+                (prettier-rc--build-config rc))
               (list ".prettierrc"
                     ".prettierrc.json"
                     ".prettierrc.yaml"
