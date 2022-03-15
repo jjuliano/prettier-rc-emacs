@@ -155,7 +155,7 @@
       (add-hook 'before-save-hook #'prettier-rc nil t)
     (remove-hook 'before-save-hook #'prettier-rc t)))
 
-(declare-function prettier-rc--build-config "prettier-rc" ())
+(declare-function prettier-rc--build-config "prettier-rc" (file))
 (declare-function prettier-rc--add-file "prettier-rc" (file))
 (declare-function prettier-rc--find-file "prettier-rc" (file))
 
