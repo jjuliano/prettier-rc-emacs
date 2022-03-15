@@ -105,20 +105,20 @@
                                     args)))))))
 
       (mapc (lambda (rc)
-                (prettier-rc--build-config rc))
-              (list ".prettierrc"
-                    ".prettierrc.json"
-                    ".prettierrc.yaml"
-                    ".prettierrc.yml"
-                    ".prettierrc.json5"
-                    ".prettierrc.js"
-                    ".prettierrc.cjs"
-                    "prettier.config.js"
-                    "prettier.config.cjs"
-                    ".prettierrc.toml"
-                    "package.json"
-                    ".prettierignore"
-                    ".editorconfig")))
+              (prettier-rc--build-config rc))
+            (list ".prettierrc"
+                  ".prettierrc.json"
+                  ".prettierrc.yaml"
+                  ".prettierrc.yml"
+                  ".prettierrc.json5"
+                  ".prettierrc.js"
+                  ".prettierrc.cjs"
+                  "prettier.config.js"
+                  "prettier.config.cjs"
+                  ".prettierrc.toml"
+                  "package.json"
+                  ".prettierignore"
+                  ".editorconfig")))
 
     ;; only specify prettier-js-args-options if files are found
     (if (bound-and-true-p args)
