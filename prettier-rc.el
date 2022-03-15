@@ -9,7 +9,7 @@
 ;; Author: Joel Bryan Juliano <joelbryan dot juliano at gmail dot com>
 ;; Created: 08 March 2022
 ;; URL: https://github.com/jjuliano/prettier-rc-emacs
-;; Package-Requires: ((emacs "24") (prettier-js "0.1.0"))
+;; Package-Requires: ((emacs "24.3") (prettier-js "0.1.0"))
 ;; Version: 0.1.0
 ;; Keywords: convenience edit js ts rc prettierrc prettier-rc prettier prettier-js
 
