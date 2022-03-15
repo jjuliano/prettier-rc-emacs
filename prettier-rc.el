@@ -137,8 +137,9 @@
               (setq prettier-js-command prettier)))))
 
   ;; finally call prettier-js
-  (prettier-js)
-  (message "Applied `%s' with args `%s'" prettier-js-command prettier-js-args))
+  (unless (string= prettier-js-command "prettier")
+    (message "Found prettier binary in `%s'." prettier-js-command))
+  (prettier-js))
 
 ;;;###autoload
 (define-minor-mode prettier-rc-mode
