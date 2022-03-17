@@ -70,42 +70,35 @@
   (interactive)
 
   (let (args)
-    (cl-letf (((symbol-function 'prettier-rc--add-file)
-               (lambda (file) ;; Builds and store the local rc FILE list if found.
-                 (list :file (concat (locate-dominating-file default-directory file)
-                                     file))))
-              ((symbol-function 'prettier-rc--find-file)
-               (lambda (file) ;; Search the local base directory for local FILE and store to list.
+    (cl-letf (((symbol-function 'prettier-rc--search-file)
+               (lambda (file) ;; Search the local base directory for local FILE.
                  (if (bound-and-true-p file)
-                     (if (locate-dominating-file default-directory file)
-                         (append (prettier-rc--add-file file))))))
+                     (locate-dominating-file default-directory file))))
+              ((symbol-function 'prettier-rc--file-path)
+               (lambda (file) ;; Return the complete FILE path
+                 (concat (prettier-rc--search-file file) file)))
+              ((symbol-function 'prettier-rc--build-args)
+               (lambda (file arg config) ;; Build an argument list
+                 (if (bound-and-true-p config)
+                     (push (concat (format "%s " arg) (prettier-rc--file-path file))
+                           args))))
               ((symbol-function 'prettier-rc--build-config)
                (lambda (file) ;; Build the config arguments
-                 (if (prettier-rc--find-file file)
-                     (cond ((string= file ".editorconfig") ;; check if `.editorconfig' will be skipped
-                            (if (bound-and-true-p prettier-rc-use-editorconfig)
-                                (push (concat "--config " (concat (locate-dominating-file
-                                                                   default-directory file) file))
-                                      args)))
-                           ;; check if `package.json' will be skipped
-                           ((string= file "package.json")
-                            (if (bound-and-true-p prettier-rc-use-package-json)
-                                (push (concat "--config " (concat (locate-dominating-file
-                                                                   default-directory file) file))
-                                      args)))
-                           ;; check if `.prettierignore' will be skipped
-                           ((string= file ".prettierignore")
-                            (if (bound-and-true-p prettier-rc-use-prettierignore)
-                                (push (concat "--ignore-path " (concat (locate-dominating-file
-                                                                        default-directory file) file))
-                                      args)))
+                 (if (prettier-rc--search-file file)
+                     (cond ((string= ".prettierignore" file) ;; check if `.prettierignore' will be skipped
+                            (prettier-rc--build-args file "--ignore-path"
+                                                     prettier-rc-use-prettierignore))
+                           ((string= "package.json" file) ;; check if `package.json' will be skipped
+                            (prettier-rc--build-args file "--config"
+                                                     prettier-rc-use-package-json))
+                           ((string= ".editorconfig" file) ;; check if `.editorconfig' will be skipped
+                            (prettier-rc--build-args file "--config"
+                                                     prettier-rc-use-package-json))
                            ;; append the rc file to the list when found
-                           (t (push (concat "--config " (concat (locate-dominating-file
-                                                                 default-directory file) file))
+                           (t (push (concat "--config " (prettier-rc--file-path file))
                                     args)))))))
 
-      (mapc (lambda (rc)
-              (prettier-rc--build-config rc))
+      (mapc (lambda (rc) (prettier-rc--build-config rc))
             (list ".prettierrc"
                   ".prettierrc.json"
                   ".prettierrc.yaml"
@@ -155,9 +148,10 @@
       (add-hook 'before-save-hook #'prettier-rc nil t)
     (remove-hook 'before-save-hook #'prettier-rc t)))
 
+(declare-function prettier-rc--build-args "prettier-rc" (file arg config))
 (declare-function prettier-rc--build-config "prettier-rc" (file))
-(declare-function prettier-rc--add-file "prettier-rc" (file))
-(declare-function prettier-rc--find-file "prettier-rc" (file))
+(declare-function prettier-rc--search-file "prettier-rc" (file))
+(declare-function prettier-rc--file-file "prettier-rc" (file))
 
 (provide 'prettier-rc)
 ;;; prettier-rc.el ends here
