@@ -151,7 +151,7 @@
 (declare-function prettier-rc--build-args "prettier-rc" (file arg config))
 (declare-function prettier-rc--build-config "prettier-rc" (file))
 (declare-function prettier-rc--search-file "prettier-rc" (file))
-(declare-function prettier-rc--file-file "prettier-rc" (file))
+(declare-function prettier-rc--file-path "prettier-rc" (file))
 
 (provide 'prettier-rc)
 ;;; prettier-rc.el ends here
