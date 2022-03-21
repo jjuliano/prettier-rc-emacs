@@ -1,6 +1,7 @@
 # Prettier-RC for Emacs
 
 [![MELPA](http://melpa.org/packages/prettier-rc-badge.svg)](http://melpa.org/#/prettier-rc)
+[![MELPA Stable](https://stable.melpa.org/packages/prettier-rc-badge.svg)](https://stable.melpa.org/#/prettier-rc)
 
 prettier-rc is a function that searches for local rc rules and editorconfig rules per project and use it to format the current buffer using
 [prettier](https://github.com/prettier/prettier). The package also exports a minor mode that applies `(prettier-rc)` on save.
