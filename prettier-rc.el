@@ -1,4 +1,4 @@
-;;; prettier-rc.el --- Minor mode for prettier to use local rc rules
+;;; prettier-rc.el --- Use local rc rules with prettier 
 
 ;; Copyright (C) 2022-2023  Joel Bryan Juliano
 
