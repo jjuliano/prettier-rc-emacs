@@ -1,4 +1,4 @@
-;;; prettier-rc.el --- Use local rc rules with prettier 
+;;; prettier-rc.el --- Use local rc rules with prettier
 
 ;; Copyright (C) 2022-2023  Joel Bryan Juliano
 
@@ -39,7 +39,7 @@
 (require 'cl-lib)
 
 (defgroup prettier-rc nil
-  "Minor mode to format JS code on file save using local rc rules"
+  "Minor mode to format JS code on file save using local rc rules."
   :group 'languages
   :prefix 'prettier-rc
   :link '(url-link :tag "Repository"
@@ -140,7 +140,7 @@
 
 ;;;###autoload
 (define-minor-mode prettier-rc-mode
-  "Runs prettier on file save using local rc rules when this mode is turned on"
+  "Runs prettier on file save using local rc rules when this mode is turned on."
   :lighter " Prettier-RC"
   :global nil
   ;; Toggle prettier-rc-mode
